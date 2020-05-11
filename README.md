@@ -1,3 +1,14 @@
+# Customizable Character Sheet
+With the customizable character sheet the user will be able to create their own character sheet independent to the Table Top Role Playing (TTRPG) system they use.
+
+The application will offer the user the ability to create fields that contain either numbers, text or the result of a calculation. 
+These fields can be nested into each other to create a parent-child relationship to enable the representation of abilities having a description of a numerical value or numbers being recalculated with static numbers and both numbers are shown.
+
+For the calculations the user will be able to write down functions containing references to other numeric fields.
+The application will offer the ability to create custom dice rolls and use them with calculations to roll for a specific value of the character.
+
+# Run the Project
+
 ## Haskell Setup
 
 1. If you haven't already, [install Stack](https://haskell-lang.org/get-started)
@@ -41,3 +52,27 @@ stack test --flag CustomizableCharactersheet:library-only --flag CustomizableCha
 * There are several chatrooms you can ask for help:
 	* For IRC, try Freenode#yesod and Freenode#haskell
 	* [Functional Programming Slack](https://fpchat-invite.herokuapp.com/), in the #haskell, #haskell-beginners, or #yesod channels.
+	
+# Design Questions
+1. How to save the nested Field structure of a Sheet
+	```
+		data Field = NumField 
+			{ type  :: String
+			, name  :: String
+			, id    :: String
+			, value :: Int   
+			}
+		    | TextField   
+			{ type  :: String
+			, name  :: String
+			, id    :: String
+			, value :: String   
+			}
+
+		data Sheet = [Sheet]
+			   | [Field]
+	    ```
+
+2. Should rolls be displayed in a "Chatbox" -> you can see the roll history OR should rolls be displayed in a box -> the new result replaces the old result, so the roll history is not (immediately ?) visible.
+	    
+(Optional: What would be a better name for this application?)
