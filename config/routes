@@ -9,7 +9,7 @@
 
 / HomeR GET POST
 /echo/#String EchoR GET
-/sheet SheetR GET
+/sheet SheetR GET POST
 
 /comments CommentR POST
 

@@ -1,3 +1,5 @@
 <h1> Test
-<p>#{show rand}
-<button>Get Rand
+<form method=post action=@{SheetR} enctype=#{enctype}>
+                ^{widget}
+                <p>It also doesn't include the submit button.
+                <button>Submit
