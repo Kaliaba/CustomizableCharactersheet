@@ -1,5 +1,2 @@
-<h1> Test
-<form method=post action=@{SheetR} enctype=#{enctype}>
-                ^{widget}
-                <p>It also doesn't include the submit button.
-                <button>Submit
+<h1> Dice rolls moved to 
+    <a href="/roll">/roll

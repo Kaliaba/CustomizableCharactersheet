@@ -164,9 +164,10 @@ instance Yesod App where
     isAuthorized CommentR _ = return Authorized
     isAuthorized HomeR _ = return Authorized
     isAuthorized (EchoR _) _ = return Authorized 
-    isAuthorized SheetR _ = return Authorized 
     isAuthorized FaviconR _ = return Authorized
     isAuthorized RobotsR _ = return Authorized
+    isAuthorized RollR _ =  return Authorized
+    isAuthorized SheetR _ = return Authorized
     isAuthorized (StaticR _) _ = return Authorized
 
     -- the profile route requires that the user is authenticated, so we

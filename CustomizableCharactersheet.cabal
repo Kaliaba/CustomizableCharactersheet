@@ -29,6 +29,7 @@ library
       Handler.Home
       Handler.Profile
       Handler.Sheet
+      Handler.Roll
       Import
       Import.NoFoundation
       Model
