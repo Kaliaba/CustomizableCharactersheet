@@ -8,6 +8,8 @@
 /robots.txt RobotsR GET
 
 / HomeR GET POST
+/echo/#String EchoR GET
+/sheet SheetR GET
 
 /comments CommentR POST
 
