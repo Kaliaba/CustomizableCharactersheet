@@ -1,0 +1,5 @@
+<h1> Test
+<form method=post action=@{NameR} enctype=#{enctype}>
+                ^{widget}
+                <p>Error form
+                <button>Go back

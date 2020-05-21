@@ -11,6 +11,7 @@
 /echo/#String EchoR GET
 /sheet SheetR GET
 /roll RollR GET POST
+/name NameR GET POST
 
 /comments CommentR POST
 

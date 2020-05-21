@@ -1,0 +1,6 @@
+<p>Name Field 
+<h1> Test
+<form method=post action=@{NameR} enctype=#{enctype}>
+                ^{widget}
+                <p>Click on the name field
+                <button>Enter
