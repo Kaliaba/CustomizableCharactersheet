@@ -10,4 +10,3 @@
 / SheetR GET
 /field FieldR GET POST
 /roll RollR GET POST
-/name NameR GET POST
