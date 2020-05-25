@@ -1,12 +1,20 @@
-<h1> Dice rolls moved to 
-    <a href="/roll">/roll
- 
- i
- $forall(name, name_field) <- assocs sess
-    <Div> 
-    <h2>#{name}
-    $maybe parsed <- parse_Expr name_field
-        <p> #{show (evaluate_Expr parsed)}
-    $nothing
-        <p> faield parsed
+<h1> Your character sheet
+<a class="btn btn-primary" href="/field"> Add field
+
+$# $forall(name, name_field) <- assocs sess
+$#     <Div> 
+$#     <h2>#{name}
+$#     $maybe parsed <- parse_Expr name_field
+$#         <p> #{show (evaluate_Expr parsed)}
+$#     $nothing
+$#         <p> failed to parse
+
+$forall (id, fieldJson) <- assocs sess
+    <div>
+        $maybe field <- jsonToField fieldJson
+            <h2>    #{name field}
+            <p>     #{id}
+            <p>     #{value field}
+        $nothing
+            <p> failed to parse
 

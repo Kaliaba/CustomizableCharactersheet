@@ -1,0 +1,4 @@
+<h1> Create new FieldForm
+<form method=post action=@{FieldR} enctype=#{enctype}>
+                ^{widget}
+                <button>Save
