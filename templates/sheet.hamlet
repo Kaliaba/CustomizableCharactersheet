@@ -1,20 +1,15 @@
 <h1> Your character sheet
 <a class="btn btn-primary" href="/field"> Add field
 
-$# $forall(name, name_field) <- assocs sess
-$#     <Div> 
-$#     <h2>#{name}
-$#     $maybe parsed <- parse_Expr name_field
-$#         <p> #{show (evaluate_Expr parsed)}
-$#     $nothing
-$#         <p> failed to parse
-
 $forall (id, fieldJson) <- assocs sess
     <div>
         $maybe field <- jsonToField fieldJson
             <h2>    #{name field}
             <p>     #{id}
-            <p>     #{value field}
+            $maybe parsedV <- FVParser.parse_Expr (value field) 
+                <p> #{show (FVParser.evaluate_Expr parsedV)}
+            $nothing
+                <p> failed to parse computation
         $nothing
-            <p> failed to parse
+            <p> failed to parse JSON
 

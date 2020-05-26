@@ -23,6 +23,7 @@ flag library-only
 library
   exposed-modules:
       Application
+      FieldValueParser
       Foundation
       Handler.Common
       Handler.Field
