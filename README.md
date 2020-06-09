@@ -7,6 +7,19 @@ These fields can be nested into each other to create a parent-child relationship
 For the calculations the user will be able to write down functions containing references to other numeric fields.
 The application will offer the ability to create custom dice rolls and use them with calculations to roll for a specific value of the character.
 
+## Current Progress
+So far with this application we were able to implement
+* A session concept to save Sheet Fields and display on the main page
+* A parser to calculate basic operations in value field of a Sheet Field (value field in the "Add field" form, try 3 + 16)
+* A basic random number generator to be used as virtual dice (localhost:3000/roll)
+
+## What we are working on
+* Adding references to other Sheet Fields in the value field of a Sheet Field to use their values in the computation
+* Add a "roll" field to the Sheet Fields so that a dice roll (with additional computation) can be performed when clicking on the Sheet field
+
+### Maybe 
+* Add Sheet Field types (number and text fields) that are treated differently (You can't reference a text field in the value field for computation)
+
 # Run the Project
 
 ## Haskell Setup
@@ -15,6 +28,19 @@ The application will offer the ability to create custom dice rolls and use them 
 	* On POSIX systems, this is usually `curl -sSL https://get.haskellstack.org/ | sh`
 2. Install the `yesod` command line tool: `stack install yesod-bin --install-ghc`
 3. Build libraries: `stack build`
+
+OR
+
+Terminal 
+
+```
+$ stack ghci CustomizableCharactersheet:lib --no-load --work-dir .stack-work-devel
+
+    :l app/DevelMain.hs
+    
+    DevelMain.update
+```
+(You can find these instructions in "CustomizableCharactersheet/app/DevelMain.hs")
 
 If you have trouble, refer to the [Yesod Quickstart guide](https://www.yesodweb.com/page/quickstart) for additional detail.
 
@@ -52,9 +78,24 @@ stack test --flag CustomizableCharactersheet:library-only --flag CustomizableCha
 * There are several chatrooms you can ask for help:
 	* For IRC, try Freenode#yesod and Freenode#haskell
 	* [Functional Programming Slack](https://fpchat-invite.herokuapp.com/), in the #haskell, #haskell-beginners, or #yesod channels.
-	
+
+# Project Structure
+This is how the source code of this project is organized:
+
+```
+|-- app 	-> to run the local web server
+|-- config 	-> Contains any application configuration like routes (routes)
+|-- src 	-> Source code containing all .hs files controlling the application
+	|--Handler 	-> Each Handler file is handling one page of the website (Example: Roll.hs handels /roll)
+|-- templates 	-> Each site of the wepage hase a template describing its HTML (Example: /roll GET -> roll-form.hamlet and /roll POST -> roll-result.hamlet)
+|-- CustomizableCharactersheet.cabal -> package management via stack
+```
+
+The main work in this project has happend in /src and /templates.
+
+
 # Design Questions
-1. How to save the nested Field structure of a Sheet
+1. (Old) How to save the nested Field structure of a Sheet
 	```
 		data Field = NumField 
 			{ type  :: String
@@ -73,6 +114,10 @@ stack test --flag CustomizableCharactersheet:library-only --flag CustomizableCha
 			   | [Field]
 	    ```
 
-2. Should rolls be displayed in a "Chatbox" -> you can see the roll history OR should rolls be displayed in a box -> the new result replaces the old result, so the roll history is not (immediately ?) visible.
+2. (Old) Should rolls be displayed in a "Chatbox" -> you can see the roll history OR should rolls be displayed in a box -> the new result replaces the old result, so the roll history is not (immediately ?) visible.
 	    
+3. The FieldValueParser is not very readable/easy to understand. Any ideas for refactoring?
+
+4. What would you like the fields on the sheet page to be ordered/layouted like?
+
 (Optional: What would be a better name for this application?)
