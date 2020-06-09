@@ -34,6 +34,7 @@ library
       Model
       Settings
       Settings.StaticFiles
+      SheetField
   other-modules:
       Paths_CustomizableCharactersheet
   hs-source-dirs:
