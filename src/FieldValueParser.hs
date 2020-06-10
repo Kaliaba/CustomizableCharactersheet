@@ -2,26 +2,32 @@
 module FieldValueParser where
 
 import Import
-import Data.Map (assocs)
+import Data.Map
+import Data.Text.Read
 import GHC.List(foldl)
 import GHC.Float
 import Text.ParserCombinators.ReadP as RP
 import Data.Char
 
-import SheetField
+import SheetField as SF
 
 data Expression a = Lit a
                 | Operator Char (Expression a) (Expression a)
+                | Var Text
                 deriving Show
 
-evaluateFieldValue :: Text -> Maybe Double
-evaluateFieldValue value = evalExpr (parseTextToExpr value)
+-- The character that indicates a variable
+varChar = '%'
 
-evalExpr :: Maybe (Expression Double) -> Maybe Double
-evalExpr e = case e of
+evaluateFieldValue :: SessionMap -> Text -> Maybe Double
+evaluateFieldValue sm value = evalExpr sm (parseTextToExpr value)
+
+evalExpr :: SessionMap -> Maybe (Expression Double) -> Maybe Double
+evalExpr sm e = case e of
     Nothing               -> Nothing
     Just (Lit i)          -> Just i
-    Just (Operator f l r) -> liftM2 (evalOp f) (evalExpr (Just l)) (evalExpr (Just r))
+    Just (Operator f l r) -> liftM2 (evalOp f) (evalExpr sm (Just l)) (evalExpr sm (Just r))
+    Just (Var s)          -> evalVar sm s
 
 evalOp :: Char -> (Double -> Double -> Double)
 evalOp c = case c of
@@ -30,13 +36,34 @@ evalOp c = case c of
     '/' -> (/)
     '*' -> (*)
 
+evalVar :: SessionMap -> Text -> Maybe Double
+evalVar sm k = getField sm k >>= fieldToNum
+
+getField :: SessionMap -> Text -> Maybe SheetField
+getField sm t = jsonToField (sm ! t)
+
+fieldToNum :: SheetField -> Maybe Double
+fieldToNum sf = getd (double (value sf)) where
+    getd :: Either String (Double, Text) -> Maybe Double
+    getd (Left s) = Nothing
+    getd (Right (d, t)) = Just d
+
 parseTextToExpr :: Text -> Maybe(Expression Double)
 parseTextToExpr t = readExpr (readP_to_S parseExpr (unpack (Import.filter (/=' ') t))) where
     readExpr [] = Nothing
     readExpr ((e, s) : _) = if s == "" then (Just e) else Nothing
 
 parseExpr :: ReadP (Expression Double)
-parseExpr = parseOp <++ parseOpPrio <++ parsePar <++ parseInt
+parseExpr = opParser
+
+opParser :: ReadP (Expression Double)
+opParser = parseOp <++ parseOpPrio <++ parseVar <++ parsePar <++ parseInt
+
+opPrioParser :: ReadP(Expression Double)
+opPrioParser = parseOpPrio <++ parseVar <++ parsePar <++ parseInt
+
+parParser :: ReadP(Expression Double)
+parParser = parsePar <++ parseVar <++ parseInt
 
 -- ParseOp will parse any + and - operator with terms on each side
 -- The resulting tree of 2 + 3 + 4 - 5 would be
@@ -49,11 +76,11 @@ parseExpr = parseOp <++ parseOpPrio <++ parsePar <++ parseInt
 parseOp :: ReadP (Expression Double)
 parseOp = do
     skipSpaces
-    expr1 <- parseOpPrio <++ parsePar <++ parseInt
+    expr1 <- opPrioParser
     skipSpaces
     op    <- choice (Import.map char ['+', '-'])
     skipSpaces
-    expr2 <- parseExpr
+    expr2 <- opParser
     skipSpaces
     return (Operator op expr1 expr2)
 
@@ -68,11 +95,11 @@ parseOp = do
 parseOpPrio :: ReadP (Expression Double)
 parseOpPrio = do
     skipSpaces
-    expr1 <- parsePar <++ parseInt
+    expr1 <- parParser
     skipSpaces
     op    <- choice (Import.map char ['*', '/'])
     skipSpaces
-    expr2 <- parseOpPrio <++ parsePar <++ parseInt
+    expr2 <- opPrioParser
     skipSpaces
     return (Operator op expr1 expr2)
 
@@ -81,7 +108,13 @@ parsePar = do
     skipSpaces
     expr <- between (char '(') (char ')') parseExpr
     skipSpaces
-    return expr    
+    return expr  
+    
+parseVar :: ReadP (Expression Double)
+parseVar = do
+    char varChar
+    varkey <- munch1 isAlpha
+    return (Var (pack varkey))
 
 parseInt :: ReadP (Expression Double)
 parseInt = do
@@ -89,14 +122,6 @@ parseInt = do
     n <- munch1 isDigit
     return $ let num = (read n) in
         if sign == '-' then Lit (-1 * num) else Lit num
-
--- Takes a Char that indicates variables in the String
--- eg: #MyVar; %MyVar
--- parseVar :: Char -> ReadP (Expression Double)
--- parseVar c sm = do
---     char c
---     varKey <- many1 $ satisfy isAlpha
---     return (Var varKey)
 
 -- parseRoll :: ReadP (Expression Double)
 -- parseRoll = do

@@ -7,7 +7,7 @@ $forall (id, fieldJson) <- assocs sess
             <h2>#{name field}
             <p> #{id}
             <p> #{value field}
-            $maybe parsedF <- FVParser.evaluateFieldValue (value field)
+            $maybe parsedF <- FVParser.evaluateFieldValue sess (value field)
                 <p> #{show (parsedF)}
             $nothing
                 <p> failed to parse computation
