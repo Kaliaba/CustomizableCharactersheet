@@ -1,4 +1,6 @@
-<h1> Create new Field
+<h1> Create New Field
 <form method=post action=@{FieldR} enctype=#{enctype}>
                 ^{widget}
                 <button>Save
+<p style="margin-top:10pt">
+    <a href="/"> Click here to go to Sheet Page
