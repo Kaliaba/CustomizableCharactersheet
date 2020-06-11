@@ -62,6 +62,11 @@ stack test --flag CustomizableCharactersheet:library-only --flag CustomizableCha
 
 (Because `yesod devel` passes the `library-only` and `dev` flags, matching those flags means you don't need to recompile between tests and development, and it disables optimization to speed up your test compile times).
 
+## Expressions to evaluate in GHCI
+
+* In the field page provide expression 5+2*8/(9+2)
+* You will be able to see the expression result on sheet page that is 6.4545454545455
+
 ## Documentation
 
 * Read the [Yesod Book](https://www.yesodweb.com/book) online for free
