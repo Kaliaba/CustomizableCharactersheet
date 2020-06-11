@@ -76,6 +76,4 @@ This is how the source code of this project is organized:
 
 The main work in this project has happend in /src and /templates.
 
-
-
 	    ```
