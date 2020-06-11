@@ -43,7 +43,7 @@ stack test --flag CustomizableCharactersheet:library-only --flag CustomizableCha
 ## Expressions to evaluate in GHCI
 
 * In the field page provide expression 5+2*8/(9+2)
-* You will be able to see the expression result on sheet page that is 6.4545454545455
+* You will be able to see the expression result on sheet page that is 6.454545454545455
 
 ## Documentation
 
