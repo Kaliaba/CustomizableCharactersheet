@@ -49,8 +49,9 @@ getSheetR = do
     (widget, enctype) <- generateFormPost randIntForm
     defaultLayout $ do 
         $(widgetFile "sheet")
-        $(widgetFile "roll-form")
         $(widgetFile "link")
+        $(widgetFile "roll-form")
+        
 
 postSheetR :: Handler Html
 postSheetR = do
@@ -62,13 +63,14 @@ postSheetR = do
             -- sess <- getSession
             defaultLayout $ do 
                 $(widgetFile "sheet")
+                $(widgetFile "link")
                 $(widgetFile "roll-form")
                 $(widgetFile "roll-result")
-                $(widgetFile "link")
+                -- $(widgetFile "link")
         _ -> defaultLayout $ do 
                 $(widgetFile "sheet")
                 $(widgetFile "roll-form")
-                $(widgetFile "link")
+                -- $(widgetFile "link")
 
 
 

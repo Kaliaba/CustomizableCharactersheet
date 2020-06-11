@@ -9,10 +9,10 @@
 module Handler.Field where
 
 import Import
-import System.Random
-import Data.Aeson           (Value, encode, object, (.=))
-import Data.Aeson.Parser    (json)
-import Data.Text
+--import System.Random
+import Data.Aeson           (encode)
+--import Data.Aeson.Parser    (json)
+--import Data.Text
 
 data Options = Options  
     { field_id :: Text

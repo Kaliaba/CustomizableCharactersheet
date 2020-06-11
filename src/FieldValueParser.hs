@@ -4,8 +4,8 @@ module FieldValueParser where
 import Import
 import Data.Map
 import Data.Text.Read
-import GHC.List(foldl)
-import GHC.Float
+--import GHC.List(foldl)
+--import GHC.Float
 import Text.ParserCombinators.ReadP as RP
 import Data.Char
 
@@ -17,6 +17,7 @@ data Expression a = Lit a
                 deriving Show
 
 -- The character that indicates a variable
+varChar :: Char
 varChar = '%'
 
 evaluateFieldValue :: SessionMap -> Text -> Maybe Double
@@ -59,10 +60,10 @@ parseExpr = opParser
 opParser :: ReadP (Expression Double)
 opParser = parseOp <++ parseOpPrio <++ parseVar <++ parsePar <++ parseInt
 
-opPrioParser :: ReadP(Expression Double)
+opPrioParser :: ReadP (Expression Double)
 opPrioParser = parseOpPrio <++ parseVar <++ parsePar <++ parseInt
 
-parParser :: ReadP(Expression Double)
+parParser :: ReadP (Expression Double)
 parParser = parsePar <++ parseVar <++ parseInt
 
 -- ParseOp will parse any + and - operator with terms on each side
@@ -112,7 +113,7 @@ parsePar = do
     
 parseVar :: ReadP (Expression Double)
 parseVar = do
-    char varChar
+    _ <- char varChar
     varkey <- munch1 isAlpha
     return (Var (pack varkey))
 
