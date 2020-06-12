@@ -76,8 +76,8 @@ This is how the source code of this project is organized:
 
 The main work in this project has happend in /src, /config and, /templates
 
-The Original template of Yesod includes all of the source code mentioned in project structure.
-
 # Yesod Original Template resource
  
+The Original template of Yesod includes all of the source code mentioned in project structure.
+
 You can find the all the souce code files of Yesod original template from GITHUB Commits made from the beggining.
