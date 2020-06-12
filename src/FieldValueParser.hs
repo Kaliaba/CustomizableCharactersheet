@@ -21,7 +21,7 @@ varChar :: Char
 varChar = '%'
 
 evaluateFieldValue :: SessionMap -> Text -> Maybe Double
-evaluateFieldValue sm value = evalExpr sm (parseTextToExpr value)
+evaluateFieldValue sm v = evalExpr sm (parseTextToExpr v)
 
 evalExpr :: SessionMap -> Maybe (Expression Double) -> Maybe Double
 evalExpr sm e = case e of
@@ -36,6 +36,7 @@ evalOp c = case c of
     '-' -> (-)
     '/' -> (/)
     '*' -> (*)
+    _   -> \_ _ -> 0
 
 evalVar :: SessionMap -> Text -> Maybe Double
 evalVar sm k = getField sm k >>= fieldToNum
@@ -46,8 +47,8 @@ getField sm t = jsonToField (sm ! t)
 fieldToNum :: SheetField -> Maybe Double
 fieldToNum sf = getd (double (value sf)) where
     getd :: Either String (Double, Text) -> Maybe Double
-    getd (Left s) = Nothing
-    getd (Right (d, t)) = Just d
+    getd (Left _) = Nothing
+    getd (Right (d, _)) = Just d
 
 parseTextToExpr :: Text -> Maybe(Expression Double)
 parseTextToExpr t = readExpr (readP_to_S parseExpr (unpack (Import.filter (/=' ') t))) where

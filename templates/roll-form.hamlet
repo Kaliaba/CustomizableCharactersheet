@@ -1,4 +1,4 @@
-<h1> Test
+<h1> Roll a Die
 <form method=post action=@{SheetR} enctype=#{enctype}>
                 ^{widget}
                 <p>It also doesn't include the submit button.
