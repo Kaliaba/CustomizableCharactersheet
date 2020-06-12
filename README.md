@@ -73,8 +73,9 @@ This is how the source code of this project is organized:
 |-- templates 	-> Each site of the wepage hase a template describing its HTML (Example: /roll GET -> roll-form.hamlet and /roll POST -> roll-result.hamlet)
 |-- CustomizableCharactersheet.cabal -> package management via stack
 ```
+The folder structure is provided through the yesod template that was set up through stack in the beginning. You can see the template without any inserted code in the initial commit.
 
-The main work in this project has happend in /src, /config and, /templates
+You can find our added code mainly in /src, /config and, /templates where we worked on the handlers for the pages '/' (sheet/home page), 'field' (form to add a field) and 'roll' (form to perform a die roll) and the coresponding template files (\*.hamlet). In addition to that we also worked on some helper .hs files under src, namely src/FieldValueParse.hs and src/SheetField.hs 
 
 # Yesod Original Template resource
  
