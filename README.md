@@ -80,6 +80,3 @@ The Original template of Yesod includes all of the source code mentioned in proj
 # Yesod Original Template resource
  
 You can find the all the souce code files of Yesod original template from GITHUB Commits made from the beggining.
-
-
-	    ```
