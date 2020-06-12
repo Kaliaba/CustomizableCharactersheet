@@ -1,3 +1,6 @@
+# Find this project on GitHub
+https://github.com/Kaliaba/CustomizableCharactersheet
+
 # Install and Run the Project
 
 ## Haskell Setup
